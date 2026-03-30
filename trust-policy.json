@@ -1,0 +1,17 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::058264561485:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/81B827D782E5F6D80ED1A7D6A30C325D"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.us-east-1.amazonaws.com/id/81B827D782E5F6D80ED1A7D6A30C325D:sub": "system:serviceaccount:default:gold-price-sa"
+        }
+      }
+    }
+  ]
+}

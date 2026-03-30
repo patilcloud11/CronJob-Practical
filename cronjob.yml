@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gold-price-cronjob
+spec:
+  schedule: "*/2 * * * *"   # runs every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: gold-price-sa   # <-- REQUIRED FOR IRSA
+          containers:
+          - name: gold-price
+            image: monali604/gold-price:latest
+            env:
+            - name: GOLD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: goldapi-secret
+                  key: api_key
+            - name: SNS_TOPIC_ARN
+              value: "arn:aws:sns:us-east-1:058264561485:gold-price-alerts"
+          restartPolicy: OnFailure
